@@ -34,6 +34,13 @@ namespace UngeDrabanter.Controllers
             }
         }
 
+        [HttpGet("User/{id}")]
+        public IActionResult GetEventsByUser([FromRoute] Guid id)
+        {
+            var events = _repository.GetEventsByUserId(id);
+            return Ok(events);
+        }
+
         [HttpPost("User/{id}")]
         public IActionResult Post([FromRoute] Guid id,[FromBody] EventDto eventDto)
         {
