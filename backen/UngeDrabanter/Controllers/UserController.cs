@@ -37,6 +37,7 @@ namespace UngeDrabanter.Controllers
             Guid UserId = _repository.CreateUser(_mapper.Map<User>(user));
             if (_repository.SaveContext())
             {
+                user.UserId = UserId;
                 return CreatedAtAction(nameof(UserController.Get), nameof(UserController).Replace("Controller", string.Empty), new { id = UserId }, user);
             }
             else

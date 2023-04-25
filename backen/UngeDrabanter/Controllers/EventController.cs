@@ -39,10 +39,15 @@ namespace UngeDrabanter.Controllers
         {
             var eventId = _repository.CreateEvent(id, _mapper.Map<Event>(eventDto));
 
-            if (_repository.SaveContext())
+            if (_repository.SaveContext()) 
+            {
+                eventDto.EventId = eventId;
                 return CreatedAtAction(nameof(EventController.Get), nameof(EventController).Replace("Controller", string.Empty), new { id = eventId }, eventDto);
-            else
+            }
+            else 
+            { 
                 return Conflict();
+            }
         }
 
         //[HttpPut]
