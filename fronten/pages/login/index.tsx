@@ -8,7 +8,7 @@ export default function LoginPage() {
     const email = data.get("Email");
     const password = data.get("Password");
 
-    console.log(data, email, password);
+    return { email, password };
   };
 
   // Should use formik or something like that

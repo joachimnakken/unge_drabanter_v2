@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="">
+    <main>
       <section className="relative flex flex-col items-center justify-center h-screen gap-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"

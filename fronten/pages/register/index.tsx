@@ -17,8 +17,7 @@ export default function RegisterPage() {
     const password = data.get("Password");
     const confirmPassword = data.get("Confirm Password");
 
-    console.log(
-      data,
+    return {
       name,
       username,
       phone,
@@ -29,8 +28,8 @@ export default function RegisterPage() {
       birthday,
       email,
       password,
-      confirmPassword
-    );
+      confirmPassword,
+    };
   };
 
   // Should use formik or something like that

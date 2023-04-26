@@ -49,9 +49,9 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       disabled={disabled}
     >
-      {LeftIcon && <span className="">{LeftIcon}</span>}
+      {LeftIcon && <span>{LeftIcon}</span>}
       {children}
-      {RightIcon && <span className="">{RightIcon}</span>}
+      {RightIcon && <span>{RightIcon}</span>}
     </button>
   );
 };
