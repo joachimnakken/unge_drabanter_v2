@@ -1,8 +1,10 @@
+import SkipToMainContentLink from "components/atoms/SkipToMainContentLink";
 import Link from "next/link";
 
 const Header = () => {
   return (
     <header>
+      <SkipToMainContentLink />
       <nav className="relative flex items-center justify-between h-10 p-4 bg-blue-300">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex w-4 h-4 gap-2">
