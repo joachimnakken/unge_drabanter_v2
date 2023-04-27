@@ -60,7 +60,6 @@ export const getStaticProps = async () => {
 };
 
 export default function EventsPage({ events }: { events: Event[] }) {
-  console.log("events", events);
   return (
     <main>
       <h1>Events Page</h1>
@@ -114,7 +113,6 @@ export default function EventsPage({ events }: { events: Event[] }) {
                     href={`/app/events/event/${event.id}`}
                     className="px-3 py-2 bg-green-500"
                   >
-                    {" "}
                     View Event
                   </Link>
                 </div>
