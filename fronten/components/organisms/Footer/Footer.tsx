@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const Footer = () => {
   return (
     <footer className="p-10 text-white bg-black">
@@ -5,10 +7,10 @@ const Footer = () => {
       <p>Velkommen til Unge Drabanter - en hjemmeside for unge drabanter.</p>
       <ul>
         <li>
-          <a href="/login">Login</a>
+          <Link href="/login">Login</Link>
         </li>
         <li>
-          <a href="/register">Signup</a>
+          <Link href="/register">Signup</Link>
         </li>
       </ul>
       <p>© 2021 Unge Drabanter</p>

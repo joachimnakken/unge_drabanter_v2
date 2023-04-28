@@ -32,6 +32,24 @@ const Header = () => {
           <li>
             <Link href="/register">Register</Link>
           </li>
+          <li>
+            <Link href="/app">App</Link>
+          </li>
+          <li>
+            <Link href="/app/events">Events</Link>
+          </li>
+          <li>
+            <Link href="/app/events/event/1">Event</Link>
+          </li>
+          <li>
+            <Link href="/app/events/create">Create Event</Link>
+          </li>
+          <li>
+            <Link href="/app/items">Items</Link>
+          </li>
+          <li>
+            <Link href="/app/items/item/1">Item 1</Link>
+          </li>
         </ul>
       </nav>
     </header>
