@@ -1,26 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace UngeDrabanter.DtoModels
 {
     public class UserDto
     {
-        [JsonPropertyName("id")]
-        public Guid? UserId { get; set; }
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        [JsonPropertyName("firstName")]
-        public string FirstName { get; set; }
+        [JsonProperty("name")]
+        public string? Name { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        [JsonPropertyName("lastName")]
-        public string LastName { get; set; }
+        [JsonProperty("email")]
+        public string? Email { get; set; }
 
-        [Required]
-        [StringLength(128)]
-        [JsonPropertyName("email")]
-        public string Email { get; set; }
+        [JsonProperty("emailVerified")]
+        public int? EmailVerified { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; } = string.Empty;
+
     }
 }

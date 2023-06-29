@@ -1,44 +1,74 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using UngeDrabanter.DtoModels;
 using UngeDrabanter.Interfaces;
 using UngeDrabanter.Models;
 
 namespace UngeDrabanter.Controllers
 {
-    [Route("[controller]")]
+    [ApiController]
+    [Route("/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly IUngeRepository _ungeRepository;
         private readonly IMapper _mapper;
-        private readonly IUngeRepository _repository;
 
-        public UserController(IMapper mapper, IUngeRepository repository) {
+        public UserController(IUngeRepository authenticationRepository, IMapper mapper)
+        {
+            _ungeRepository = authenticationRepository;
             _mapper = mapper;
-            _repository = repository;
         }
 
-        [HttpGet]
-        public IActionResult Get([FromQuery] Guid id)
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUser(Guid id)
         {
-            var user = _repository.GetUserById(id);
-            if (user != null)
-            {
-                return Ok(_mapper.Map<UserDto>(user));
-            }
-            else
+            var result = await _ungeRepository.GetUserAsync(id);
+            if (result is null)
             {
                 return NotFound();
             }
+            else
+            {
+                return Ok(_mapper.Map<UserDto>(result));
+            }
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] UserDto user)
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> UpdateUserAsync(Guid id, [FromBody][Required] UserDto user)
         {
-            Guid UserId = _repository.CreateUser(_mapper.Map<User>(user));
-            if (_repository.SaveContext())
+            user.Id = id;
+            var result = await _ungeRepository.UpdateUserAsync(_mapper.Map<User>(user));
+            if (!result)
             {
-                user.UserId = UserId;
-                return CreatedAtAction(nameof(UserController.Get), nameof(UserController).Replace("Controller", string.Empty), new { id = UserId }, user);
+                return NotFound();
+            }
+            if (await _ungeRepository.SaveChangesAsync())
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return Conflict();
+            }
+
+        }
+
+        [HttpPost("{id}/Accounts")]
+        [ProducesResponseType(typeof(AccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> LinkAccountAsync(Guid id, [FromBody] AccountDto account)
+        {
+            account.UserId = id;
+            _ungeRepository.AddAccount(_mapper.Map<Account>(account));
+            if (await _ungeRepository.SaveChangesAsync())
+            {
+                return Ok(account);
             }
             else
             {
@@ -46,11 +76,25 @@ namespace UngeDrabanter.Controllers
             }
         }
 
-        //[HttpPut]
-        //public IActionResult Put([FromBody] UserDto id)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
+        [HttpDelete("{id}/Accounts/{provider}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UnlinkAccountAsync(Guid id, string provider)
+        {
+            var result = await _ungeRepository.RemoveAccount(id, provider);
+            if (!result)
+            {
+                return NotFound();
+            }
+            if (await _ungeRepository.SaveChangesAsync())
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Conflict();
+            }
+        }
     }
 }
