@@ -10,8 +10,10 @@ namespace UngeDrabanter.Mapping
         {
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
-            CreateMap<Event, EventDto>();
-            CreateMap<EventDto, Event>();
+            CreateMap<SessionDto, Session>();
+            CreateMap<Session, SessionDto>();
+            CreateMap<AccountDto, Account>();
+            CreateMap<Account, AccountDto>();
         }
     }
 }
