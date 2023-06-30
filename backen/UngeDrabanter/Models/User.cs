@@ -8,17 +8,15 @@ namespace UngeDrabanter.Models
         [Key]
         public Guid Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string FirstName { get; set; }
+        public string? Name { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string LastName { get; set; }
+        public string? Email { get; set; }
 
-        [Required]
-        [StringLength(128)]
-        public string Email { get; set; }
+        public DateTime? EmailVerified { get; set; }
+
+        public ICollection<Session> Sessions { get; set; }
+
+        public ICollection<Account> Accounts { get; set; }
 
         //public IEnumerable<Event> ParticipatingEvents { get; set; }
 

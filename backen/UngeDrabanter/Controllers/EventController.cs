@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS.Core;
 using UngeDrabanter.DtoModels;
 using UngeDrabanter.Interfaces;
 using UngeDrabanter.Models;
@@ -42,11 +41,11 @@ namespace UngeDrabanter.Controllers
         }
 
         [HttpPost("User/{id}")]
-        public IActionResult Post([FromRoute] Guid id,[FromBody] EventDto eventDto)
+        public async Task<IActionResult> Post([FromRoute] Guid id,[FromBody] EventDto eventDto)
         {
             var eventId = _repository.CreateEvent(id, _mapper.Map<Event>(eventDto));
 
-            if (_repository.SaveContext()) 
+            if (await _repository.SaveChangesAsync()) 
             {
                 eventDto.EventId = eventId;
                 return CreatedAtAction(nameof(EventController.Get), nameof(EventController).Replace("Controller", string.Empty), new { id = eventId }, eventDto);
@@ -56,12 +55,6 @@ namespace UngeDrabanter.Controllers
                 return Conflict();
             }
         }
-
-        //[HttpPut]
-        //public IActionResult Put(EventDto eventDto)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
     }
 }
